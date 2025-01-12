@@ -1,0 +1,7 @@
+venv/
+.env
+dotenv
+weaviate_quickstart/
+notebook/
+corpus/
+*.ipynb
