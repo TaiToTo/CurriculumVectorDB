@@ -4,6 +4,8 @@ import PyPDF2
 import weaviate
 from weaviate.classes.config import Configure
 
+from PDFExtraction import extract_paragraphs_est_basic_school
+
 if __name__=="__main__":
     # pdf_file_path_list = [
     #     "curriculum_corpus/mathematics.pdf", 
@@ -56,17 +58,21 @@ if __name__=="__main__":
 
         with open(pdf_file_path, 'rb') as file:
 
-            subject = os.path.split(pdf_file_path)[-1].replace(".pdf", "")
+            subject = pdf_path_dict[os.path.split(pdf_file_path)[-1]]
 
-            # Create a PDF reader object
-            pdf_reader = PyPDF2.PdfReader(file)
+            # # Create a PDF reader object
+            # pdf_reader = PyPDF2.PdfReader(file)
+
+            paragraph_list = extract_paragraphs_est_basic_school(file)
 
             with curriculum_demo.batch.dynamic() as batch:
                 # Loop through each page and extract text
-                for page_number, page in enumerate(pdf_reader.pages):
+                for idx, paragraph_text in enumerate(paragraph_list):
+                    # print("-"*100)
+                    # print(paragraph_text)
                     batch.add_object({
-                        "page_number": int(page_number + 1),
-                        "text": page.extract_text(),
+                        "paragraph_idx": int(idx),
+                        "text": paragraph_text,
                         "subject": subject,
                     })
 
