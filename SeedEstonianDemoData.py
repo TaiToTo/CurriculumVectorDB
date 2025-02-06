@@ -75,6 +75,12 @@ if __name__=="__main__":
         print("Seeding: " + pdf_file_path)
 
         with open(pdf_file_path, 'rb') as file:
+            
+            if "basic_school" in pdf_file_path:
+                school_type = "basic_school"
+            elif "upper_secondary" in pdf_file_path:
+                school_type = "upper_secondary_school"
+
             subject = pdf_path_dict[os.path.split(pdf_file_path)[-1]]
 
             paragraph_list = extract_paragraphs_est_basic_school(file)
@@ -86,10 +92,8 @@ if __name__=="__main__":
                         "paragraph_idx": int(idx),
                         "text": paragraph_text,
                         "subject": subject,
+                        "school_type": school_type
                     })
-
-            # print(client.batch.failed_objects)
-            # print(curriculum_demo.batch.failed_objects)
 
     client.close()  # Free up resources
 
