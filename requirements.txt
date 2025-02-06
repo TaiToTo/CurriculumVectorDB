@@ -1,0 +1,5 @@
+weaviate 
+pypdf2
+bertopic
+umap-learn
+weaviate-client
